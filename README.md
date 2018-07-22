@@ -2,4 +2,4 @@
 
 对[WheelView](https://github.com/wangjiegulu/WheelView)进行AndroidTV适配,新增onFocusChange方法,实现焦点控制选择.
 
-![image](https://github.com/luziming/AndroidTVWheelViewSimple/image/image.png)
+<img src='image/image.png' height='500px'/>
