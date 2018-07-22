@@ -11,17 +11,23 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity implements View.OnKeyListener, View.OnFocusChangeListener {
+public class MainActivity extends AppCompatActivity implements View.OnKeyListener, View.OnFocusChangeListener, ValueAnimator.AnimatorUpdateListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String[] PLANETS = new String[]{"Mercury", "Venus", "Earth", "Mars", "Jupiter", "Uranus", "Neptune", "Pluto"};
     private WheelView wva;
     private WheelView wva1;
+    private float _100dp;
+    private float _150dp;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        _100dp = getResources().getDimension(R.dimen._100dp);
+        _150dp = getResources().getDimension(R.dimen._150dp);
 
         wva = (WheelView) findViewById(R.id.main_wv);
         wva1 = (WheelView) findViewById(R.id.main_wv1);
@@ -99,6 +105,36 @@ public class MainActivity extends AppCompatActivity implements View.OnKeyListene
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         Log.e("MainActivity", "onFocusChange:" + v.getId() + ",hasFocus:" + hasFocus);
+        if (v.getId() == R.id.main_wv) {
+            if (hasFocus) {
+
+            } else {
+
+            }
+        } else {
+            if (hasFocus) {
+                ValueAnimator valueAnimator = ValueAnimator.ofFloat(1, 0);
+                valueAnimator.addUpdateListener(this);
+                valueAnimator.setDuration(200);
+                valueAnimator.start();
+            } else {
+                ValueAnimator valueAnimator = ValueAnimator.ofFloat(0, 1);
+                valueAnimator.addUpdateListener(this);
+                valueAnimator.setDuration(200);
+                valueAnimator.start();
+            }
+        }
+
+
+    }
+
+    @Override
+    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+        float offset = (float) valueAnimator.getAnimatedValue();
+
+        ViewGroup.LayoutParams layoutParams = wva.getLayoutParams();
+        layoutParams.width = (int) (_100dp + offset * (_150dp - _100dp));
+        wva.setLayoutParams(layoutParams);
 
     }
 }
